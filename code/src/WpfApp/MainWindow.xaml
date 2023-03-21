@@ -6,7 +6,34 @@
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Window.Resources>
+        <Style TargetType="DataGrid">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Height" Value="25" />
+        </Style>
+    </Window.Resources>
 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="0.2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <!--<RowDefinition Height="0.2*"></RowDefinition>-->
+        </Grid.RowDefinitions>
+
+        <DataGrid Grid.Column="0">
+            
+        </DataGrid>
+
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <Button Content="Back" />
+            <Button Content="Future..." />
+        </StackPanel>
     </Grid>
 </Window>

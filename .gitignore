@@ -1,1 +1,5 @@
+# IDE
+/code/.vs
 
+# Bin
+/code/src/WpfApp/bin

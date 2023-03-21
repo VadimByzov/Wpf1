@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
@@ -12,28 +13,12 @@
         </Style>
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="Height" Value="25" />
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="20" />
         </Style>
     </Window.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="0.2*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <!--<RowDefinition Height="0.2*"></RowDefinition>-->
-        </Grid.RowDefinitions>
-
-        <DataGrid Grid.Column="0">
-            
-        </DataGrid>
-
-        <StackPanel Grid.Column="1" Orientation="Vertical">
-            <Button Content="Back" />
-            <Button Content="Future..." />
-        </StackPanel>
+        <Frame Source="View/CityView.xaml"></Frame>
     </Grid>
 </Window>

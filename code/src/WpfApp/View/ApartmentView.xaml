@@ -30,8 +30,16 @@
 
         <Label Grid.Column="0" Grid.Row="0">Apartments Page</Label>
 
-        <DataGrid Grid.Column="0" Grid.Row="1">
-
+        <DataGrid Grid.Column="0" Grid.Row="1"
+                  ItemsSource="{Binding Apartments}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  TextBlock.TextAlignment="Center">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Width="0.3*" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="House id" Width="0.3*" Binding="{Binding HouseId}" />
+                <DataGridTextColumn Header="Area" Width="0.4*" Binding="{Binding Area}" />
+            </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Grid.Row="2"

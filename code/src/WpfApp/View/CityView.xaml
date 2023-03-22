@@ -30,13 +30,20 @@
 
         <Label Grid.Row="0">Cities Page</Label>
 
-        <DataGrid Grid.Row="1">
-
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Cities}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  TextBlock.TextAlignment="Center">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Width="0.3*" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Name" Width="0.7*" Binding="{Binding Name}" />
+            </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button Command="{Binding NextPage}"
-                    CommandParameter="{}"></Button>
+                    CommandParameter=""></Button>
         </StackPanel>
     </Grid>
 </Page>

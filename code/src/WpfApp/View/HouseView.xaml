@@ -30,8 +30,16 @@
 
         <Label Grid.Column="0" Grid.Row="0">Houses Page</Label>
 
-        <DataGrid Grid.Column="0" Grid.Row="1">
-
+        <DataGrid Grid.Column="0" Grid.Row="1"
+                  ItemsSource="{Binding Houses}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  TextBlock.TextAlignment="Center">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Width="0.3*" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Street Id" Width="0.3*" Binding="{Binding StreetId}" />
+                <DataGridTextColumn Header="Number" Width="0.4*" Binding="{Binding Number}" />
+            </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Grid.Row="2"

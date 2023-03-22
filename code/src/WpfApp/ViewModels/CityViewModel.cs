@@ -1,16 +1,14 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Controls;
 using WpfApp.Commands;
 using WpfApp.Models;
-using WpfApp.View;
 
 namespace WpfApp.ViewModels;
 
-public class CityViewModel : INotifyPropertyChanged
+public class CityViewModel : BaseViewModel, INotifyPropertyChanged
 {
-  private RelayCommand _nextPage;
+  private RelayCommand? _nextPage;
 
   public RelayCommand NextPage
   {
@@ -18,9 +16,20 @@ public class CityViewModel : INotifyPropertyChanged
     {
       return _nextPage ??= new RelayCommand(obj =>
       {
-        var frame = obj as Frame;
-        frame.Navigate(typeof(StreetView));
+        
       });
+    }
+  }
+
+  private City? _selectedCity;
+
+  public City? SelectedCity
+  {
+    get => _selectedCity;
+    set
+    {
+      _selectedCity = value;
+      OnPropertyChanged(nameof(SelectedCity));
     }
   }
 

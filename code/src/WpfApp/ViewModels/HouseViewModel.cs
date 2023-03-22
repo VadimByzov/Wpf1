@@ -7,9 +7,9 @@ using WpfApp.Models;
 
 namespace WpfApp.ViewModels;
 
-public class HouseViewModel : INotifyPropertyChanged
+public class HouseViewModel : BaseViewModel, INotifyPropertyChanged
 {
-  private RelayCommand _nextPage;
+  private RelayCommand? _nextPage;
 
   public RelayCommand NextPage
   {

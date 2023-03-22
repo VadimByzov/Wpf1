@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using WpfApp.ViewModels;
 
 namespace WpfApp.View;
 
@@ -10,5 +11,6 @@ public partial class ApartmentView : Page
   public ApartmentView()
   {
     InitializeComponent();
+    DataContext = new ApartmentViewModel();
   }
 }

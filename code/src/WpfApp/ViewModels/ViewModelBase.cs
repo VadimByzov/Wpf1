@@ -1,5 +1,5 @@
 ﻿namespace WpfApp.ViewModels;
 
-public class BaseViewModel
+public class ViewModelBase
 {
 }

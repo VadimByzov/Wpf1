@@ -8,6 +8,20 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Frame Source="View/CityView.xaml"></Frame>
+        <TabControl>
+            <TabItem Header="Cities">
+                <Frame Source="View/CityView.xaml" />
+            </TabItem>
+            <TabItem Header="Streets">
+                <Frame Source="View/StreetView.xaml" />
+            </TabItem>
+            <TabItem Header="Houses">
+                <Frame Source="View/HouseView.xaml" />
+            </TabItem>
+            <TabItem Header="Apartments">
+                <Frame x:Name="MainFrame" Source="View/ApartmentView.xaml" />
+            </TabItem>
+        </TabControl>
+        
     </Grid>
 </Window>

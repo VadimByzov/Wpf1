@@ -1,13 +1,11 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿namespace WpfApp.Models;
 
-namespace WpfApp.Models;
-
-public class Street
+public class Street : ModelBase
 {
   private int _id;
   private int _cityId;
   private string? _name;
+  private int _housesNumber;
 
   public int Id
   {
@@ -39,10 +37,13 @@ public class Street
     }
   }
 
-  public event PropertyChangedEventHandler? PropertyChanged;
-
-  public void OnProprtyChanged([CallerMemberName] string propertyName = "")
+  public int HousesNumber
   {
-    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    get => _housesNumber;
+    set
+    {
+      _housesNumber = value;
+      OnProprtyChanged(nameof(HousesNumber));
+    }
   }
 }

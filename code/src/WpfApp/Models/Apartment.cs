@@ -1,9 +1,6 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿namespace WpfApp.Models;
 
-namespace WpfApp.Models;
-
-public class Apartment : INotifyPropertyChanged
+public class Apartment : ModelBase
 {
   private int _id;
   private int _houseId;
@@ -37,12 +34,5 @@ public class Apartment : INotifyPropertyChanged
       _area = value;
       OnProprtyChanged(nameof(Area));
     }
-  }
-
-  public event PropertyChangedEventHandler? PropertyChanged;
-
-  public void OnProprtyChanged([CallerMemberName] string propertyName = "")
-  {
-    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
   }
 }

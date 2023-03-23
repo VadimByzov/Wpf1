@@ -36,9 +36,9 @@
                   IsReadOnly="True"
                   TextBlock.TextAlignment="Center">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Width="0.3*" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="City Id" Width="0.3*" Binding="{Binding CityId}" />
-                <DataGridTextColumn Header="Name" Width="0.4*" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Id" Width="0.2*" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Name" Width="0.6*" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Houses number" Width="0.2*" Binding="{Binding HousesNumber}" />
             </DataGrid.Columns>
         </DataGrid>
 

@@ -36,9 +36,10 @@
                   IsReadOnly="True"
                   TextBlock.TextAlignment="Center">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Width="0.3*" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Street Id" Width="0.3*" Binding="{Binding StreetId}" />
+                <DataGridTextColumn Header="Id" Width="0.2*" Binding="{Binding Id}" />
                 <DataGridTextColumn Header="Number" Width="0.4*" Binding="{Binding Number}" />
+                <DataGridTextColumn Header="Apartment number" Width="0.2*" Binding="{Binding ApartmentsNumber}" />
+                <DataGridTextColumn Header="Area sum" Width="0.2*" Binding="{Binding AreaSum}" />
             </DataGrid.Columns>
         </DataGrid>
 

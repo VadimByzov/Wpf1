@@ -38,8 +38,9 @@
                   TextBlock.TextAlignment="Center"
                   SelectedItem="{Binding SelectedCity}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Width="0.3*" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Name" Width="0.7*" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Id" Width="0.2*" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Name" Width="0.6*" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Streets in city" Width="0.2*" Binding="{Binding StreetsNumber}" />
             </DataGrid.Columns>
 
             <i:Interaction.Triggers>

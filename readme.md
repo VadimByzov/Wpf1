@@ -1,6 +1,3 @@
 # Wpf1
 
-## Issues
-
-* Views switching
-* Db connect
+Database is used from https://github.com/VadimByzov/RestApi1

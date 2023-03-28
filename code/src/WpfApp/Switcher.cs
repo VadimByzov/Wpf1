@@ -7,7 +7,7 @@ public static class Switcher
 {
   private static readonly Dictionary<string, Action<int>> switcher = new();
 
-  private static readonly Stack<string> history = new();
+  private static readonly Stack<KeyValuePair<string, int>> history = new();
 
   public static void Register(string viewmodelName, Action<int> callback)
   {
@@ -21,17 +21,18 @@ public static class Switcher
       switcher.Remove(viewmodelName);
   }
 
-  public static void Switch(string viewmodelName, string fromName, int id)
+  public static void Switch(string viewmodelName, string fromName, int id, int fromId)
   {
     if (switcher.ContainsKey(viewmodelName))
     {
       switcher[viewmodelName].Invoke(id);
-      history.Push(fromName);
+      history.Push(new(fromName, fromId));
     }
   }
 
-  public static void Back(int id)
+  public static void Back()
   {
-    switcher[history.Pop()].Invoke(id);
+    (var viewmodel, var parentId) = history.Pop();
+    switcher[viewmodel].Invoke(parentId);
   }
 }

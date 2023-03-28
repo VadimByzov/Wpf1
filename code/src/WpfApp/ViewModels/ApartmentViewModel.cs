@@ -74,7 +74,7 @@ public class ApartmentViewModel : ViewModelBase, IViewModel
   {
     get => _navigateBack ??= new RelayCommand(x =>
     {
-      Switcher.Back(ParentId);
+      Switcher.Back();
     });
   }
 

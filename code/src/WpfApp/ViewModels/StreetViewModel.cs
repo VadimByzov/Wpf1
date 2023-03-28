@@ -43,7 +43,7 @@ public class StreetViewModel : ViewModelBase, IViewModel
   {
     get => _navigateHouseCommand ??= new RelayCommand(x =>
     {
-      Switcher.Switch(nameof(HouseViewModel), nameof(StreetViewModel), SelectedStreet.Id);
+      Switcher.Switch(nameof(HouseViewModel), nameof(StreetViewModel), SelectedStreet.Id, ParentId);
     },
     x => SelectedStreet is not null);
   }
@@ -54,7 +54,7 @@ public class StreetViewModel : ViewModelBase, IViewModel
   {
     get => _navigateBack ??= new RelayCommand(x =>
     {
-      Switcher.Back(ParentId);
+      Switcher.Back();
     });
   }
 

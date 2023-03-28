@@ -27,7 +27,7 @@ public class CityViewModel : ViewModelBase, IViewModel
   {
     get => _navigateStreetCommand ??= new RelayCommand(x =>
     {
-      Switcher.Switch(nameof(StreetViewModel), nameof(CityViewModel), SelectedCity.Id);
+      Switcher.Switch(nameof(StreetViewModel), nameof(CityViewModel), SelectedCity.Id, ParentId);
     },
     x => SelectedCity is not null);
   }

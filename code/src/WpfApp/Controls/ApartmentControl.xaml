@@ -27,16 +27,13 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="8*"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0">Apartments Page</Label>
+        <Label Grid.Row="0" Content="Квартиры" />
 
         <DataGrid Grid.Row="1"
                   ItemsSource="{Binding Apartments}"
@@ -45,17 +42,17 @@
                   TextBlock.TextAlignment="Center"
                   SelectedItem="{Binding SelectedApartment}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Width="0.2*" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Area" Width="0.4*" Binding="{Binding Area}" />
+                <DataGridTextColumn Header="Идентификатор" Width="5*" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Площадь" Width="5*" Binding="{Binding Area}" />
             </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Grid.Row="2"
                     Orientation="Horizontal">
             <Button Grid.Row="2"
-                Content="Back"
+                Content="Назад"
                 Command="{Binding NavigateBack}" />
-            <Label Content="Area from" />
+            <Label Content="Площадь от" />
             <TextBox>
                 <TextBox.Text>
                     <Binding Path="LowBorder">
@@ -65,7 +62,7 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <Label Content="to" />
+            <Label Content="до" />
             <TextBox>
                 <TextBox.Text>
                     <Binding Path="HighBorder">
@@ -75,9 +72,9 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <Button Content="Filter"
+            <Button Content="Отобрать"
                     Command="{Binding Filter}" />
-            <Button Content="Clear filter"
+            <Button Content="Очистить фильтр"
                     Command="{Binding ClearFilter}" />
         </StackPanel>
 

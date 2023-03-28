@@ -25,7 +25,7 @@ public class HouseViewModel : ViewModelBase, IViewModel
     var houses = _houseDataService.GetAll().Select(x => new House
     {
       Id = x.Id,
-      StreetId = x.Id,
+      StreetId = x.Street_Id,
       Number = x.Number,
       ApartmentsNumber = x.ApartmentsNumber,
       AreaSum = x.AreaSum,
@@ -44,7 +44,7 @@ public class HouseViewModel : ViewModelBase, IViewModel
   {
     get => _navigateApartmentCommand ??= new RelayCommand(x =>
     {
-      Switcher.Switch(nameof(ApartmentViewModel), nameof(HouseViewModel), SelectedHouse.Id);
+      Switcher.Switch(nameof(ApartmentViewModel), nameof(HouseViewModel), SelectedHouse.Id, ParentId);
     },
     x => SelectedHouse is not null);
   }
@@ -55,7 +55,7 @@ public class HouseViewModel : ViewModelBase, IViewModel
   {
     get => _navigateBack ??= new RelayCommand(x =>
     {
-      Switcher.Back(ParentId);
+      Switcher.Back();
     });
   }
 

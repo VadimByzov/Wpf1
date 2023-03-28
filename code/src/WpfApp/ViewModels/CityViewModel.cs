@@ -1,33 +1,56 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using WpfApp.Commands;
 using WpfApp.DataAccess;
 using WpfApp.Models;
 
 namespace WpfApp.ViewModels;
 
-public class CityViewModel : ViewModelBase, INotifyPropertyChanged
+public class CityViewModel : ViewModelBase, IViewModel
 {
-  private RelayCommand? _nextPage;
+  #region Data
 
-  public RelayCommand NextPage
-  {
-    get
-    {
-      return _nextPage ??= new RelayCommand(obj =>
-      {
-        
-      });
-    }
-  }
+  public int ParentId { get; set; }
 
   private readonly CityDataService _cityDataService;
 
-  private City? _selectedCity;
+  public IEnumerable<City> Cities { get; set; }
 
-  public City? SelectedCity
+  #endregion
+
+  #region Commands
+
+  private ICommand _navigateStreetCommand;
+
+  public ICommand NavigateStreetCommand
+  {
+    get => _navigateStreetCommand ??= new RelayCommand(x =>
+    {
+      Switcher.Switch(nameof(StreetViewModel), nameof(CityViewModel), SelectedCity.Id);
+    },
+    x => SelectedCity is not null);
+  }
+
+  #endregion
+
+  #region Other
+
+  public CityViewModel()
+  {
+    _cityDataService = new CityDataService();
+
+    Cities = _cityDataService.GetAll().Select(x => new City
+      {
+        Id = x.Id,
+        Name = x.Name,
+        StreetsNumber = x.StreetsNumber
+      });
+  }
+
+  private City _selectedCity;
+
+  public City SelectedCity
   {
     get => _selectedCity;
     set
@@ -37,53 +60,5 @@ public class CityViewModel : ViewModelBase, INotifyPropertyChanged
     }
   }
 
-  public ObservableCollection<City> Cities { get; set; }
-
-  public CityViewModel()
-  {
-    _cityDataService = new CityDataService();
-    var cities = _cityDataService.GetAll().Select(x => new City 
-    {
-      Id = x.Id,
-      Name = x.Name,
-      StreetsNumber = x.StreetsNumber
-    });
-
-    Cities = new ObservableCollection<City>(cities);
-    //Cities = new ObservableCollection<City>
-    //{
-    //  new() { Id = 1, Name = "Moscow" },
-    //  new() { Id = 2, Name = "Saint-Peterburg" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //  new() { Id = 3, Name = "Mock" },
-    //};
-  }
-
-  public event PropertyChangedEventHandler? PropertyChanged;
-
-  public void OnPropertyChanged([CallerMemberName] string propertyName = "")
-  {
-    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-  }
+  #endregion
 }

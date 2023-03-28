@@ -1,65 +1,125 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows.Controls;
+using System.Windows.Input;
 using WpfApp.Commands;
 using WpfApp.DataAccess;
 using WpfApp.Models;
 
 namespace WpfApp.ViewModels;
 
-public class ApartmentViewModel : ViewModelBase, INotifyPropertyChanged
+public class ApartmentViewModel : ViewModelBase, IViewModel
 {
-  private RelayCommand? _nextPage;
+  #region Data
 
-  public RelayCommand NextPage
+  public int ParentId { get; set; }
+
+  private double _lowBorder;
+
+  public double LowBorder
   {
-    get
+    get => _lowBorder;
+    set
     {
-      return _nextPage ??= new RelayCommand(obj =>
-      {
-        var frame = obj as Frame;
-      });
+      _lowBorder = value;
+      OnPropertyChanged(nameof(LowBorder));
     }
   }
 
-  private ApartmentDataService _apartmentDataService;
+  private double _highBorder;
 
-  public ObservableCollection<Apartment> Apartments { get; set; }
-
-  public ApartmentViewModel()
+  public double HighBorder
   {
-    _apartmentDataService = new ApartmentDataService();
-    var aparts = _apartmentDataService.GetAll().Select(x => new Apartment
+    get => _highBorder;
+    set
+    {
+      _highBorder = value;
+      OnPropertyChanged(nameof(HighBorder));
+    }
+  }
+
+  private readonly ApartmentDataService _apartmentDataService;
+
+  private IEnumerable<Apartment> _defaultApartments;
+  private IEnumerable<Apartment> _apartments;
+
+  public IEnumerable<Apartment> Apartments
+  {
+    get => _apartments ??= GetApartments();
+    set
+    {
+      _apartments = value;
+      OnPropertyChanged(nameof(Apartments));
+    }
+  }
+
+  private IEnumerable<Apartment> GetApartments()
+  {
+    var apartments = _apartmentDataService.GetAll().Select(x => new Apartment
     {
       Id = x.Id,
       HouseId = x.House_Id,
       Area = x.Area,
     });
-    Apartments = new ObservableCollection<Apartment>(aparts);
-
-    //Apartments = new ObservableCollection<Apartment>
-    //{
-    //  new() { Id = 01, HouseId = 1, Area = 100.00 },
-    //  new() { Id = 02, HouseId = 1, Area = 045.00 },
-    //  new() { Id = 03, HouseId = 1, Area = 023.00 },
-    //  new() { Id = 04, HouseId = 1, Area = 112.00 },
-    //  new() { Id = 05, HouseId = 1, Area = 141.00 },
-    //  new() { Id = 06, HouseId = 2, Area = 153.00 },
-    //  new() { Id = 07, HouseId = 2, Area = 151.00 },
-    //  new() { Id = 08, HouseId = 3, Area = 054.00 },
-    //  new() { Id = 09, HouseId = 3, Area = 075.00 },
-    //  new() { Id = 10, HouseId = 3, Area = 023.00 },
-    //  new() { Id = 11, HouseId = 3, Area = 042.00 },
-    //  new() { Id = 12, HouseId = 3, Area = 032.00 },
-    //};
+    _defaultApartments = apartments.Where(x => x.HouseId == ParentId);
+    return _defaultApartments;
   }
 
-  public event PropertyChangedEventHandler? PropertyChanged;
+  #endregion
 
-  public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+  #region Commands
+
+  private ICommand _navigateBack;
+
+  public ICommand NavigateBack
   {
-    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    get => _navigateBack ??= new RelayCommand(x =>
+    {
+      Switcher.Back(ParentId);
+    });
   }
+
+  private ICommand _filter;
+
+  public ICommand Filter
+  {
+    get => _filter ??= new RelayCommand(x =>
+    {
+      Apartments = Apartments.Where(x => x.Area >= LowBorder && x.Area <= HighBorder);
+    });
+  }
+
+  private ICommand _clearFilter;
+
+  public ICommand ClearFilter
+  {
+    get => _clearFilter ??= new RelayCommand(x =>
+    {
+      LowBorder = 0;
+      HighBorder = 0;
+      Apartments = _defaultApartments;
+    });
+  }
+
+  #endregion
+
+  #region Other
+
+  public ApartmentViewModel()
+  {
+    _apartmentDataService = new ApartmentDataService();
+  }
+
+  private Apartment _selectedApartment;
+
+  public Apartment SelectedApartment
+  {
+    get => _selectedApartment;
+    set
+    {
+      _selectedApartment = value;
+      OnPropertyChanged(nameof(SelectedApartment));
+    }
+  }
+
+  #endregion
 }

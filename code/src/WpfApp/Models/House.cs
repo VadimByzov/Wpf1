@@ -4,7 +4,7 @@ public class House : ModelBase
 {
   private int _id;
   private int _streetId;
-  private string? _number;
+  private string _number;
   private int _apartmentsNumber;
   private double _areaSum;
 
@@ -28,7 +28,7 @@ public class House : ModelBase
     }
   }
 
-  public string? Number
+  public string Number
   {
     get => _number;
     set

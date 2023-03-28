@@ -3,7 +3,7 @@
 public class City : ModelBase
 {
   private int _id;
-  private string? _name;
+  private string _name;
   private int _streetsNumber;
 
   public int Id
@@ -16,7 +16,7 @@ public class City : ModelBase
     }
   }
 
-  public string? Name
+  public string Name
   {
     get => _name;
     set

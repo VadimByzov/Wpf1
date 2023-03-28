@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace WpfApp.Models;
+namespace WpfApp.ViewModels;
 
-public abstract class ModelBase : INotifyPropertyChanged
+public abstract class ViewModelBase : INotifyPropertyChanged
 {
   public event PropertyChangedEventHandler PropertyChanged;
 
-  public void OnProprtyChanged([CallerMemberName] string propertyName = "")
+  public void OnPropertyChanged([CallerMemberName] string propertyName = "")
   {
     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
   }

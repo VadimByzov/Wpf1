@@ -1,27 +1,21 @@
 ﻿<Application x:Class="WpfApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:WpfApp"
-             xmlns:view="clr-namespace:WpfApp.View"
-             xmlns:viewModel="clr-namespace:WpfApp.ViewModels"
+             xmlns:views="clr-namespace:WpfApp.Controls"
+             xmlns:viewmodels="clr-namespace:WpfApp.ViewModels"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <!--<ResourceDictionary>
-            <DataTemplate DataType="{x:Type viewModel:CityViewModel}">
-                <view:CityView />
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type viewModel:StreetViewModel}">
-                <view:StreetView />
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type viewModel:HouseViewModel}">
-                <view:HouseView />
-            </DataTemplate>
-
-            <DataTemplate DataType="{x:Type viewModel:ApartmentViewModel}">
-                <view:ApartmentView />
-            </DataTemplate>
-        </ResourceDictionary>-->
+        <DataTemplate DataType="{x:Type viewmodels:CityViewModel}">
+            <views:CityControl />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:StreetViewModel}">
+            <views:StreetControl />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:HouseViewModel}">
+            <views:HouseControl />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:ApartmentViewModel}">
+            <views:ApartmentControl />
+        </DataTemplate>
     </Application.Resources>
 </Application>

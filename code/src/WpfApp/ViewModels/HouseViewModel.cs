@@ -1,36 +1,27 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows.Controls;
+using System.Windows.Input;
 using WpfApp.Commands;
 using WpfApp.DataAccess;
 using WpfApp.Models;
 
 namespace WpfApp.ViewModels;
 
-public class HouseViewModel : ViewModelBase, INotifyPropertyChanged
+public class HouseViewModel : ViewModelBase, IViewModel
 {
-  private RelayCommand? _nextPage;
+  #region Data
 
-  public RelayCommand NextPage
-  {
-    get
-    {
-      return _nextPage ??= new RelayCommand(obj =>
-      {
-        var frame = obj as Frame;
-      });
-    }
-  }
+  public int ParentId { get; set; }
 
   private readonly HouseDataService _houseDataService;
 
-  public ObservableCollection<House> Houses { get; set; }
-
-  public HouseViewModel()
+  public IEnumerable<House> Houses
   {
-    _houseDataService = new HouseDataService();
+    get => GetHouses();
+  }
+
+  private IEnumerable<House> GetHouses()
+  {
     var houses = _houseDataService.GetAll().Select(x => new House
     {
       Id = x.Id,
@@ -39,29 +30,55 @@ public class HouseViewModel : ViewModelBase, INotifyPropertyChanged
       ApartmentsNumber = x.ApartmentsNumber,
       AreaSum = x.AreaSum,
     });
-    Houses = new ObservableCollection<House>(houses);
-
-    //Houses = new ObservableCollection<House>
-    //{
-    //  new() { Id = 01, StreetId = 1, Number = "1" },
-    //  new() { Id = 02, StreetId = 1, Number = "1" },
-    //  new() { Id = 03, StreetId = 1, Number = "1" },
-    //  new() { Id = 04, StreetId = 1, Number = "1" },
-    //  new() { Id = 05, StreetId = 1, Number = "1" },
-    //  new() { Id = 06, StreetId = 2, Number = "1" },
-    //  new() { Id = 07, StreetId = 2, Number = "1" },
-    //  new() { Id = 08, StreetId = 3, Number = "1" },
-    //  new() { Id = 09, StreetId = 3, Number = "1" },
-    //  new() { Id = 10, StreetId = 3, Number = "1" },
-    //  new() { Id = 11, StreetId = 3, Number = "1" },
-    //  new() { Id = 12, StreetId = 3, Number = "1" },
-    //};
+    var filtered = houses.Where(x => x.StreetId == ParentId);
+    return filtered;
   }
 
-  public event PropertyChangedEventHandler? PropertyChanged;
+  #endregion
 
-  public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+  #region Commands
+
+  private ICommand _navigateApartmentCommand;
+
+  public ICommand NavigateApartmentCommand
   {
-    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    get => _navigateApartmentCommand ??= new RelayCommand(x =>
+    {
+      Switcher.Switch(nameof(ApartmentViewModel), nameof(HouseViewModel), SelectedHouse.Id);
+    },
+    x => SelectedHouse is not null);
   }
+
+  private ICommand _navigateBack;
+
+  public ICommand NavigateBack
+  {
+    get => _navigateBack ??= new RelayCommand(x =>
+    {
+      Switcher.Back(ParentId);
+    });
+  }
+
+  #endregion
+
+  #region Other
+
+  public HouseViewModel()
+  {
+    _houseDataService = new HouseDataService();
+  }
+
+  private House _selectedHouse;
+
+  public House SelectedHouse
+  {
+    get => _selectedHouse;
+    set
+    {
+      _selectedHouse = value;
+      OnPropertyChanged(nameof(SelectedHouse));
+    }
+  }
+
+  #endregion
 }

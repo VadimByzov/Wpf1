@@ -1,13 +1,17 @@
 ﻿<Window x:Class="WpfApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:local="clr-namespace:WpfApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
     <Grid>
+        <!--<i:Interaction.Triggers>
+            <i:EventTrigger EventName="MouseDoubleClick">
+                <i:InvokeCommandAction Command="{Binding NextPage}" />
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <TabControl>
             <TabItem Header="Cities">
                 <Frame Source="View/CityView.xaml" />
@@ -21,7 +25,9 @@
             <TabItem Header="Apartments">
                 <Frame x:Name="MainFrame" Source="View/ApartmentView.xaml" />
             </TabItem>
-        </TabControl>
-        
+        </TabControl>-->
+
+
+        <ContentControl Content="{Binding CurrentViewModel}" />
     </Grid>
 </Window>

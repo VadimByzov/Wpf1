@@ -4,7 +4,7 @@ public class Street : ModelBase
 {
   private int _id;
   private int _cityId;
-  private string? _name;
+  private string _name;
   private int _housesNumber;
 
   public int Id
@@ -27,7 +27,7 @@ public class Street : ModelBase
     }
   }
 
-  public string? Name
+  public string Name
   {
     get => _name;
     set

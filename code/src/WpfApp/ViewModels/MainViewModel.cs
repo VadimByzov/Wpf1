@@ -1,49 +1,70 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Controls;
+﻿using System.Collections.Generic;
 
 namespace WpfApp.ViewModels;
 
-class MainViewModel : ViewModelBase, INotifyPropertyChanged
+class MainViewModel : ViewModelBase
 {
-  //private object? _currentView;
+  private Dictionary<string, IViewModel> _viewModels;
 
-  //public object? CurrentView
-  //{
-  //  get => _currentView;
-  //  set
-  //  {
-  //    _currentView = value;
-  //    OnPropertyChanged(nameof(CurrentView));
-  //  }
-  //}
-
-  //private CityViewModel _cityViewModel { get; set; }
-  //private StreetViewModel _streetViewModel { get; set; }
-  //private HouseViewModel _houseViewModel { get; set; }
-  //private ApartmentViewModel _apartmentViewModel { get; set; }
-
-  //public MainViewModel()
-  //{
-  //  _cityViewModel = new CityViewModel();
-  //  _streetViewModel = new StreetViewModel();
-  //  _houseViewModel = new HouseViewModel();
-  //  _apartmentViewModel = new ApartmentViewModel();
-
-  //  _currentView = _cityViewModel;
-  //}
-
-  public MainViewModel(Frame mainFrame)
+  public Dictionary<string, IViewModel> ViewModels
   {
-    _mainFrame = mainFrame;
+    get => _viewModels;
+    private set => _viewModels = value;
   }
 
-  public Frame _mainFrame;
+  private IViewModel _currentViewModel;
 
-  public event PropertyChangedEventHandler? PropertyChanged;
-
-  public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+  public IViewModel CurrentViewModel
   {
-    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    get => _currentViewModel;
+    set
+    {
+      _currentViewModel = value;
+      OnPropertyChanged(nameof(CurrentViewModel));
+    }
+  }
+
+  private void ChangeCurrentViewModel(string viewmodel, int id)
+  {
+    CurrentViewModel = ViewModels[viewmodel];
+    CurrentViewModel.ParentId = id;
+  }
+
+  private void OnCityVM(int id)
+  {
+    ChangeCurrentViewModel(nameof(CityViewModel), id);
+  }
+
+  private void OnStreetVM(int id)
+  {
+    ChangeCurrentViewModel(nameof(StreetViewModel), id);
+  }
+
+  private void OnHouseVM(int id)
+  {
+    ChangeCurrentViewModel(nameof(HouseViewModel), id);
+  }
+
+  private void OnApartmentVM(int id)
+  {
+    ChangeCurrentViewModel(nameof(ApartmentViewModel), id);
+  }
+
+  public MainViewModel()
+  {
+    ViewModels = new Dictionary<string, IViewModel>
+    {
+      { nameof(CityViewModel), new CityViewModel() },
+      { nameof(StreetViewModel), new StreetViewModel() },
+      { nameof(HouseViewModel), new HouseViewModel() },
+      { nameof(ApartmentViewModel), new ApartmentViewModel() },
+    };
+
+    CurrentViewModel = ViewModels[nameof(CityViewModel)];
+
+    Switcher.Register(nameof(CityViewModel), OnCityVM);
+    Switcher.Register(nameof(StreetViewModel), OnStreetVM);
+    Switcher.Register(nameof(HouseViewModel), OnHouseVM);
+    Switcher.Register(nameof(ApartmentViewModel), OnApartmentVM);
   }
 }

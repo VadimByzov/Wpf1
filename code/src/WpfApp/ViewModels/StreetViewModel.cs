@@ -1,36 +1,27 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows.Controls;
+using System.Windows.Input;
 using WpfApp.Commands;
 using WpfApp.DataAccess;
 using WpfApp.Models;
 
 namespace WpfApp.ViewModels;
 
-public class StreetViewModel : ViewModelBase, INotifyPropertyChanged
+public class StreetViewModel : ViewModelBase, IViewModel
 {
-  private RelayCommand? _nextPage;
+  #region Data
 
-  public RelayCommand NextPage
-  {
-    get
-    {
-      return _nextPage ??= new RelayCommand(obj =>
-      {
-        var frame = obj as Frame;
-      });
-    }
-  }
+  public int ParentId { get; set; }
 
   private readonly StreetDataService _streetDataService;
 
-  public ObservableCollection<Street> Streets { get; set; }
-
-  public StreetViewModel()
+  public IEnumerable<Street> Streets
   {
-    _streetDataService = new StreetDataService();
+    get => GetStreets();
+  }
+
+  private IEnumerable<Street> GetStreets()
+  {
     var streets = _streetDataService.GetAll().Select(s => new Street
     {
       Id = s.Id,
@@ -38,29 +29,55 @@ public class StreetViewModel : ViewModelBase, INotifyPropertyChanged
       Name = s.Name,
       HousesNumber = s.HousesNumber
     });
-    Streets = new ObservableCollection<Street>(streets);
-
-    //Streets = new ObservableCollection<Street>
-    //{
-    //  new() { Id = 01, CityId = 1, Name = "Pushkin street" },
-    //  new() { Id = 02, CityId = 1, Name = "Pushkin street" },
-    //  new() { Id = 03, CityId = 1, Name = "Pushkin street" },
-    //  new() { Id = 04, CityId = 1, Name = "Pushkin street" },
-    //  new() { Id = 05, CityId = 1, Name = "Pushkin street" },
-    //  new() { Id = 06, CityId = 2, Name = "Pushkin street" },
-    //  new() { Id = 07, CityId = 2, Name = "Pushkin street" },
-    //  new() { Id = 08, CityId = 3, Name = "Pushkin street" },
-    //  new() { Id = 09, CityId = 3, Name = "Pushkin street" },
-    //  new() { Id = 10, CityId = 3, Name = "Pushkin street" },
-    //  new() { Id = 11, CityId = 3, Name = "Pushkin street" },
-    //  new() { Id = 12, CityId = 3, Name = "Pushkin street" },
-    //};
+    var filtered = streets.Where(x => x.CityId == ParentId);
+    return filtered;
   }
 
-  public event PropertyChangedEventHandler? PropertyChanged;
+  #endregion
 
-  public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+  #region Commands
+
+  private ICommand _navigateHouseCommand;
+
+  public ICommand NavigateHouseCommand
   {
-    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    get => _navigateHouseCommand ??= new RelayCommand(x =>
+    {
+      Switcher.Switch(nameof(HouseViewModel), nameof(StreetViewModel), SelectedStreet.Id);
+    },
+    x => SelectedStreet is not null);
   }
+
+  private ICommand _navigateBack;
+
+  public ICommand NavigateBack
+  {
+    get => _navigateBack ??= new RelayCommand(x =>
+    {
+      Switcher.Back(ParentId);
+    });
+  }
+
+  #endregion
+
+  #region Other
+
+  public StreetViewModel()
+  {
+    _streetDataService = new StreetDataService();
+  }
+
+  private Street _selectedStreet;
+
+  public Street SelectedStreet
+  {
+    get => _selectedStreet;
+    set
+    {
+      _selectedStreet = value;
+      OnPropertyChanged(nameof(SelectedStreet));
+    }
+  }
+
+  #endregion
 }
